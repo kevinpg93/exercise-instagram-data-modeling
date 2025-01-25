@@ -7,6 +7,8 @@ from eralchemy2 import render_er
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship, Mapped
 from typing import List
+from sqlalchemy import Table
+from sqlalchemy.orm import DeclarativeBase
 
 Base = declarative_base()
 
@@ -56,8 +58,10 @@ class Media(Base):
   
     id = Column(Integer, primary_key=True)
     post: Mapped[List["Post"]] = relationship()
-
-association_table = tabla (
+    
+class Base(DeclarativeBase):
+    pass
+association_table = Table (
     "association_table",
     Base.metadata,
     Column("post_id", ForeignKey("post.id"), primary_key=True),

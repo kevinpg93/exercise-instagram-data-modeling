@@ -31,8 +31,8 @@ class Post(Base):
     post_name =mapped_column(String(50))
     post_footer=mapped_column(String(100))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    comments: Mapped[List[comments]] = relationship(secondary=association_table)
     media_id: Mapped[int] = mapped_column(ForeignKey("media.id"))
+    Comments_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
 
 
 class Followers(Base):
@@ -45,11 +45,11 @@ class Followers(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
 
 class Comments(Base):
-    __tablename__ = 'comments'   
-
+    __tablename__ = 'comments'
     comment_id = mapped_column(Integer, primary_key=True)
     comment_text =mapped_column(String(50), nullable=False)
     post: Mapped[List["Post"]] = relationship()
+    
 
     
 
@@ -58,16 +58,6 @@ class Media(Base):
   
     id = Column(Integer, primary_key=True)
     post: Mapped[List["Post"]] = relationship()
-    
-class Base(DeclarativeBase):
-    pass
-association_table = Table (
-    "association_table",
-    Base.metadata,
-    Column("post_id", ForeignKey("post.id"), primary_key=True),
-    Column("comments_id", ForeignKey("comments.id"), primary_key=True),
-)    
-    
 
 ## Draw from SQLAlchemy base
 try:

@@ -21,7 +21,7 @@ class User(Base):
     contraseña =mapped_column(String(20), nullable=False)
     email=mapped_column(String(50), nullable=False)
     post: Mapped[List["Post"]] = relationship()
-    followers: Mapped[List["Followers"]]= relationship()
+    followers: Mapped[List["Follower"]]= relationship()
 
 
 class Post(Base):
@@ -29,20 +29,15 @@ class Post(Base):
 
     post_id = mapped_column(Integer, primary_key=True)
     post_name =mapped_column(String(50))
-    post_footer=mapped_column(String(100))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     media_id: Mapped[int] = mapped_column(ForeignKey("media.id"))
     Comments_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
 
 
-class Followers(Base):
+class Follower(Base):
     __tablename__ = 'followers'
- 
-    follower_id = Column(Integer, primary_key=True)
-    street_name =mapped_column(String(250))
-    street_number = mapped_column(String(250))
-    post_code = mapped_column(String(250), nullable=False)  
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    user_from_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
+    user_to_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
 
 class Comments(Base):
     __tablename__ = 'comments'

@@ -22,6 +22,7 @@ class User(Base):
     email=mapped_column(String(50), nullable=False)
     post: Mapped[List["Post"]] = relationship()
     followers: Mapped[List["Follower"]]= relationship()
+    comments : Mapped[List["Comments"]]= relationship()
 
 
 class Post(Base):
@@ -44,6 +45,8 @@ class Comments(Base):
     comment_id = mapped_column(Integer, primary_key=True)
     comment_text =mapped_column(String(50), nullable=False)
     post: Mapped[List["Post"]] = relationship()
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+
     
 
     
